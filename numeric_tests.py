@@ -11,11 +11,13 @@ is_zero = lambda n: n(ret_false)(true)
 
 
 equal = lambda m: lambda n: c_and(is_zero(sub(m)(n)))(is_zero(sub(n)(m)))
-
+gt = lambda m: lambda n: c_not(is_zero(sub(m)(n)))
+lt = lambda m: lambda n: c_and(c_not(gt(m)(n)))(c_not(equal(m)(n)))
 
 ''' 
-define a helper functions 
+define a helper function 
 '''
+
 def church_to_boolean(cb):
     return cb(True)(False)
 
@@ -29,3 +31,11 @@ assert church_to_boolean(equal(one)(one)) == True
 assert church_to_boolean(equal(one)(two)) == False
 assert church_to_boolean(equal(two)(one)) == False
 
+assert church_to_boolean(gt(three)(two)) == True
+assert church_to_boolean(gt(three)(four)) == False
+assert church_to_boolean(gt(three)(three)) == False
+
+
+assert church_to_boolean(lt(three)(four)) == True
+assert church_to_boolean(lt(four)(three)) == False
+assert church_to_boolean(lt(four)(four)) == False
