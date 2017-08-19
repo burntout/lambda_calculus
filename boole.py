@@ -14,11 +14,15 @@ define a helper functions
 '''
 def church_to_boolean(cb):
     return cb(True)(False)
-
+''' 
+define a helper function 
+'''
 
 '''
 Tests
 '''
+assert church_to_boolean(false) == False
+assert church_to_boolean(true) == True
 
 assert  church_to_boolean(c_not(true)) == False
 assert  church_to_boolean(c_not(false)) == True
@@ -27,9 +31,6 @@ assert  church_to_boolean(c_and(false)(false)) == False
 assert  church_to_boolean(c_and(false)(true)) == False
 assert  church_to_boolean(c_and(true)(false)) == False
 assert  church_to_boolean(c_and(true)(true)) == True
-
-
-
 
 assert  church_to_boolean(c_or(true)(true)) == True
 assert  church_to_boolean(c_or(true)(false)) == True

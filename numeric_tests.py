@@ -14,15 +14,6 @@ equal = lambda m: lambda n: c_and(is_zero(sub(m)(n)))(is_zero(sub(n)(m)))
 gt = lambda m: lambda n: c_not(is_zero(sub(m)(n)))
 lt = lambda m: lambda n: c_and(c_not(gt(m)(n)))(c_not(equal(m)(n)))
 
-''' 
-define a helper function 
-'''
-
-def church_to_boolean(cb):
-    return cb(True)(False)
-
-assert church_to_boolean(false) == False
-assert church_to_boolean(true) == True
 
 assert church_to_boolean(is_zero(zero)) == True
 assert church_to_boolean(is_zero(one)) == False

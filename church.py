@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-define some important things
+define some important constants
 snd gives the second element of a pair
 fst gives the first element of a pair
 '''
@@ -11,11 +11,9 @@ fst = true = lambda x: lambda y: x
 
 ''' 
 define the successor function
+and a generate a few integers
 '''
 succ =  lambda n: lambda f: lambda x: f(n(f)(x))
-'''
-show that the successor function has the properties we want
-'''
 
 one = succ(zero)
 two = succ(one)
@@ -24,7 +22,7 @@ four = succ(three)
 
 
 '''
-define a helper function to convert church numerals to integers
+define helper functions to convert church numerals to integers
 and vice versa
 '''
 
@@ -34,20 +32,16 @@ def church_to_int(church):
 def int_to_church(n):
     return succ(int_to_church(n-1)) if n > 0 else zero
 
-assert church_to_int(one) == 1
-assert church_to_int(two) == 2
-assert church_to_int(three) == 3 
-assert church_to_int(four) == 4 
-
 ''' 
-generate some additional simple math functions
+Define addition, multiplication and exponentiation
+add(x)(y) -> x+y
+mult(x)(y) -> x*y
+expn(x)(y) -> x**y
 '''
 
 add = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
 mult = lambda m: lambda n: lambda f: lambda x: m(n(f))(x)
-
-assert church_to_int(add(one)(one)) == 2
-assert church_to_int(mult(four)(three)) == 12
+expn = lambda m: lambda n: lambda f: lambda x: n(m)(f)(x)
 
 ''' 
 Define Kleene's predeccessor function
@@ -62,7 +56,6 @@ pzero = pair(zero)(zero)
 psucc = lambda p: pair(p(snd))(succ(p(snd)))
 pred = lambda n: n(psucc)(pzero)(fst)
 
-assert church_to_int(pred(four)) == 3
 
 '''
 Create a subtraction function from the predecessor function
@@ -71,9 +64,19 @@ sub(m)(n) == m - n
 
 sub = lambda m: lambda n: n(pred)(m)
 
+
+''' 
+Tests
+'''
+
+assert church_to_int(one) == 1
+assert church_to_int(two) == 2
+assert church_to_int(three) == 3 
+assert church_to_int(four) == 4 
+
+assert church_to_int(add(one)(one)) == 2
+assert church_to_int(mult(four)(three)) == 12
+assert church_to_int(expn(two)(three)) == 8
+
+assert church_to_int(pred(four)) == 3
 assert church_to_int(sub(four)(three)) == 1
-
-
-
-
-
