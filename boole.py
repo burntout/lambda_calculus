@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-false  = zero = lambda x: lambda y: y
+false = lambda x: lambda y: y
 true = lambda x: lambda y: x
 
 

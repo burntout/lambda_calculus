@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from boole import *
-from church import *
+from numerals import *
 
 '''
 test for equality 

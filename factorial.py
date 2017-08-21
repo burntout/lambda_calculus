@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from church import *
+from numerals import *
 from boole import *
 from numeric_tests import *
 

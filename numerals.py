@@ -5,8 +5,9 @@ define some important constants
 snd gives the second element of a pair
 fst gives the first element of a pair
 '''
-zero = snd = false = lambda x: lambda y: y
-fst = true = lambda x: lambda y: x
+zero = lambda x: lambda y: y
+snd = lambda x: lambda y: y
+fst = lambda x: lambda y: x
 
 
 ''' 
