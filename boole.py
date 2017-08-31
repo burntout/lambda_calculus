@@ -8,6 +8,8 @@ c_not =  lambda x: x(false)(true)
 c_or = lambda x: lambda y: x(true)(y(true)(false))
 c_and = lambda x: lambda y: x(y(true)(false))(false)
 
+if_then_else = lambda a: lambda b: lambda c: a(b)(c)
+
 ''' 
 define a helper functions 
 '''
@@ -35,3 +37,6 @@ assert  church_to_boolean(c_or(true)(true)) == True
 assert  church_to_boolean(c_or(true)(false)) == True
 assert  church_to_boolean(c_or(false)(true)) == True
 assert  church_to_boolean(c_or(false)(false)) == False
+
+assert  church_to_boolean(if_then_else(true)(true)(false)) == True
+assert  church_to_boolean(if_then_else(false)(true)(false)) == False
