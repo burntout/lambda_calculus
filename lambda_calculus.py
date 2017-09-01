@@ -139,4 +139,9 @@ g = lambda f: lambda n: IF(IS_ZERO(n))(lambda _: ONE)(lambda _: (MULT(n)(f(PRED(
 
 FACTORIAL = lambda n: Z(g)(n)
 
+
+fi = lambda f: lambda m: IF(OR(IS_ZERO(m))(IS_ZERO(PRED(m))))(lambda _: ONE)(lambda _: ADD(f(PRED(m)))(f(PRED(PRED(m)))))
+FIBONACCI = lambda n: Z(fi)(n)
+
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
+assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
