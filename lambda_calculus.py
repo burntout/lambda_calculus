@@ -57,7 +57,6 @@ FOUR = SUCC(THREE)
 Math on Natural Numbers
 '''
 
-
 ADD = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
 MULT = lambda m: lambda n: lambda f: lambda x: m(n(f))(x)
 
@@ -145,3 +144,21 @@ FIBONACCI = lambda n: Z(fi)(n)
 
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
 assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
+
+'''
+Lists
+NIL is the empty list
+IS_NIL tests for the empty list
+'''
+
+NIL = lambda _: TRUE
+IS_NIL = lambda l: l(lambda x: lambda y: FALSE)
+CONS = lambda h: lambda t: PAIR(h)(t)
+
+HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(FST))(lambda _: NIL)
+TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND))(lambda _: NIL)
+
+
+
+
+
