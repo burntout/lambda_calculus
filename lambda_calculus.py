@@ -52,6 +52,12 @@ ONE = SUCC(ZERO)
 TWO = SUCC(SUCC(ZERO))
 THREE = SUCC(SUCC(SUCC(ZERO)))
 FOUR = SUCC(THREE)
+FIVE = SUCC(FOUR)
+SIX = SUCC(FIVE)
+SEVEN = SUCC(SIX)
+EIGHT = SUCC(SEVEN)
+NINE = SUCC(EIGHT)
+TEN = SUCC(NINE)
 
 ''' 
 Math on Natural Numbers
@@ -105,7 +111,7 @@ IS_ZERO = lambda n: n(lambda _: FALSE)(TRUE)
 EQ = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(IS_ZERO(MINUS(n)(m)))
 LT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
 GT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
-
+GE = lambda m: lambda n: NOT(LT(m)(n))
 
 '''
 Comparison Tests
@@ -128,6 +134,10 @@ assert GT(FOUR)(THREE)(lambda _: True)(lambda _: False) == True
 assert GT(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
 assert GT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
 
+assert GE(THREE)(THREE)(lambda _: True)(lambda _: False) == True
+assert GE(THREE)(TWO)(lambda _: True)(lambda _: False) == True
+assert GE(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
+
 '''
 Recursive Functions
 Requires the Z combinator
@@ -138,12 +148,25 @@ g = lambda f: lambda n: IF(IS_ZERO(n))(lambda _: ONE)(lambda _: (MULT(n)(f(PRED(
 
 FACTORIAL = lambda n: Z(g)(n)
 
-
 fi = lambda f: lambda m: IF(OR(IS_ZERO(m))(IS_ZERO(PRED(m))))(lambda _: ONE)(lambda _: ADD(f(PRED(m)))(f(PRED(PRED(m)))))
 FIBONACCI = lambda n: Z(fi)(n)
 
+
+# Divide
+# Variable "c" counts recursion depth as we recursively subtract b from a 
+DIV = lambda f: lambda c: lambda a: lambda b: IF(LT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
+DIVIDE = lambda a: lambda b: Z(DIV)(ZERO)(a)(b)
+
+
+REM = lambda f: lambda a: lambda b: IF(LT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
+REMAINDER = lambda a: lambda b: Z(REM)(a)(b)
+
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
 assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
+assert DIVIDE(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
+assert REMAINDER(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
+assert REMAINDER(TEN)(FOUR)(lambda x: x+1)(0) == 2
+
 
 '''
 Lists
