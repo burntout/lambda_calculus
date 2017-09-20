@@ -161,6 +161,19 @@ DIVIDE = lambda a: lambda b: Z(DIV)(ZERO)(a)(b)
 REM = lambda f: lambda a: lambda b: IF(LT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
 REMAINDER = lambda a: lambda b: Z(REM)(a)(b)
 
+
+# Recursive multiplication
+# This is multiplication as repeated addition
+
+m = lambda f: lambda a: lambda b: IF(IS_ZERO)(b)(lambda _: ZERO)(lambda _: ADD(a)(f(a)(PRED(b))))
+RMULT = lambda a: lambda b: Z(m)(a)(b)
+
+
+# Euclids gcd algorithm
+gcd_stub = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
+gcd = lambda a: lambda b: Z(gcd_stub)(a)(b)
+
+
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
 assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
 assert DIVIDE(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
