@@ -172,7 +172,7 @@ RMULT = lambda a: lambda b: Z(m)(a)(b)
 
 # Euclids gcd algorithm
 gcd_stub = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
-gcd = lambda a: lambda b: Z(gcd_stub)(a)(b)
+GCD = lambda a: lambda b: Z(gcd_stub)(a)(b)
 
 
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
@@ -180,7 +180,8 @@ assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
 assert DIVIDE(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
 assert REMAINDER(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
 assert REMAINDER(TEN)(FOUR)(lambda x: x+1)(0) == 2
-
+assert RMULT(TEN)(TWO)(lambda x: x+1)(0) == 20
+assert  GCD(MULT(MULT(NINE)(FOUR))(FIVE))(MULT(NINE)(TWO))(lambda x: x+1)(0) == 18
 
 '''
 Lists
