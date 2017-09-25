@@ -171,8 +171,8 @@ RMULT = lambda a: lambda b: Z(m)(a)(b)
 
 
 # Euclids gcd algorithm
-gcd_stub = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
-gcd = lambda a: lambda b: Z(gcd_stub)(a)(b)
+GCD_STUB = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
+GCD = lambda a: lambda b: Z(GCD_STUB)(a)(b)
 
 
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
@@ -199,6 +199,19 @@ TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(SND))(lambda _: NIL)
 MAP_STUB = lambda f: lambda g: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: CONS((g)(HEAD(l)))(f(g)(TAIL(l))))
 MAP = lambda g: lambda l: Z(MAP_STUB)(g)(l)
 
+APPEND_STUB = lambda f: lambda l: lambda e: IF(IS_NIL(l))(lambda _: CONS(e)(l))(lambda _: CONS(HEAD(l))(f(TAIL(l))(e)))
+APPEND = lambda l: lambda e: Z(APPEND_STUB)(l)(e)
+
+LEN_STUB = lambda f: lambda c: lambda l: IF(IS_NIL(l))(lambda _: c)(lambda _: f(SUCC(c))(TAIL(l)))
+LEN = lambda l: Z(LEN_STUB)(ZERO)(l)
+
+LAST_STUB = lambda f: lambda l: IF(IS_NIL(TAIL(l)))(lambda _: HEAD(l))(lambda _: f(TAIL(l)))
+LAST  = lambda l: Z(LAST_STUB)(l)
+
+REVERSE_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: APPEND(f(TAIL(l)))(HEAD(l)))
+REVERSE = lambda l: Z(REVERSE_STUB)(l)
+
+
 l = CONS(ONE)(CONS(TWO)(CONS(THREE)(CONS(FOUR)(NIL))))
 k = MAP(MULT(TEN))(l)
 
@@ -206,3 +219,7 @@ assert HEAD(l)(lambda x: x+1)(0) == 1
 assert HEAD(TAIL(l))(lambda x: x+1)(0) == 2
 assert HEAD(TAIL(TAIL(k)))(lambda x: x+1)(0) == 30
 assert HEAD(TAIL(TAIL(TAIL(k))))(lambda x: x+1)(0) == 40
+assert LEN(l)(lambda x: x+1)(0) == 4
+assert LEN(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
+assert LAST(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
+assert HEAD(REVERSE(l))(lambda x: x+1)(0) == 4
