@@ -127,7 +127,7 @@ assert IF(IS_ZERO(ONE))(lambda _: "Yes")(lambda _: "No") == "No"
 assert EQ(ONE)(ONE)(lambda _: True)(lambda _: False) == True
 assert EQ(SUCC(SUCC(SUCC(SUCC(ZERO)))))(ADD(TWO)(TWO))(lambda _: True)(lambda _: False) == True
 
-assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) =G= False
+assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) == False
 assert LT(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
 assert LT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
 
