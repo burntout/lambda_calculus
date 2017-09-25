@@ -196,7 +196,13 @@ CONS = lambda h: lambda t: PAIR(FALSE)(PAIR(h)(t))
 HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(FST))(lambda _: NIL)
 TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(SND))(lambda _: NIL)
 
+MAP_STUB = lambda f: lambda g: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: CONS((g)(HEAD(l)))(f(g)(TAIL(l))))
+MAP = lambda g: lambda l: Z(MAP_STUB)(g)(l)
 
+l = CONS(ONE)(CONS(TWO)(CONS(THREE)(CONS(FOUR)(NIL))))
+k = MAP(MULT(TEN))(l)
 
-
-
+assert HEAD(l)(lambda x: x+1)(0) == 1
+assert HEAD(TAIL(l))(lambda x: x+1)(0) == 2
+assert HEAD(TAIL(TAIL(k)))(lambda x: x+1)(0) == 30
+assert HEAD(TAIL(TAIL(TAIL(k))))(lambda x: x+1)(0) == 40
