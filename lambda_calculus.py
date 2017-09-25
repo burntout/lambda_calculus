@@ -126,7 +126,7 @@ assert IF(IS_ZERO(ONE))(lambda _: "Yes")(lambda _: "No") == "No"
 assert EQ(ONE)(ONE)(lambda _: True)(lambda _: False) == True
 assert EQ(SUCC(SUCC(SUCC(SUCC(ZERO)))))(ADD(TWO)(TWO))(lambda _: True)(lambda _: False) == True
 
-assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) == False
+assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) =G= False
 assert LT(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
 assert LT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
 
@@ -183,16 +183,17 @@ assert REMAINDER(TEN)(FOUR)(lambda x: x+1)(0) == 2
 
 '''
 Lists
+Generated as pairs of pairs
 NIL is the empty list
 IS_NIL tests for the empty list
 '''
 
-NIL = lambda _: TRUE
-IS_NIL = lambda l: l(lambda x: lambda y: FALSE)
-CONS = lambda h: lambda t: PAIR(h)(t)
+NIL = PAIR(TRUE)(TRUE)
+IS_NIL = lambda l: l(FST)
+CONS = lambda h: lambda t: PAIR(FALSE)(PAIR(h)(t))
 
-HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(FST))(lambda _: NIL)
-TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND))(lambda _: NIL)
+HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(FST))(lambda _: NIL)
+TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(SND))(lambda _: NIL)
 
 
 
