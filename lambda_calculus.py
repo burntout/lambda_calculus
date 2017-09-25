@@ -64,6 +64,7 @@ Math on Natural Numbers
 '''
 
 ADD = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
+ADD = lambda m : lambda n: lambda x: lambda y: (m)(SUCC)(n)(x)(y)
 MULT = lambda m: lambda n: lambda f: lambda x: m(n(f))(x)
 
 '''
