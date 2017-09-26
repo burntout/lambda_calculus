@@ -110,8 +110,8 @@ Comparisons
 
 IS_ZERO = lambda n: n(lambda _: FALSE)(TRUE)
 EQ = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(IS_ZERO(MINUS(n)(m)))
-LT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
-GT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
+GT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
+LT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
 GE = lambda m: lambda n: NOT(LT(m)(n))
 
 '''
@@ -127,17 +127,17 @@ assert IF(IS_ZERO(ONE))(lambda _: "Yes")(lambda _: "No") == "No"
 assert EQ(ONE)(ONE)(lambda _: True)(lambda _: False) == True
 assert EQ(SUCC(SUCC(SUCC(SUCC(ZERO)))))(ADD(TWO)(TWO))(lambda _: True)(lambda _: False) == True
 
-assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) == False
-assert LT(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
+assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) == True
+assert LT(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
 assert LT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
 
-assert GT(FOUR)(THREE)(lambda _: True)(lambda _: False) == True
-assert GT(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
+assert GT(FOUR)(THREE)(lambda _: True)(lambda _: False) == False
+assert GT(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
 assert GT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
 
 assert GE(THREE)(THREE)(lambda _: True)(lambda _: False) == True
-assert GE(THREE)(TWO)(lambda _: True)(lambda _: False) == True
-assert GE(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
+assert GE(THREE)(TWO)(lambda _: True)(lambda _: False) == False
+assert GE(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
 
 '''
 Recursive Functions
@@ -155,11 +155,11 @@ FIBONACCI = lambda n: Z(fi)(n)
 
 # Divide
 # Variable "c" counts recursion depth as we recursively subtract b from a 
-DIV = lambda f: lambda c: lambda a: lambda b: IF(LT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
+DIV = lambda f: lambda c: lambda a: lambda b: IF(GT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
 DIVIDE = lambda a: lambda b: Z(DIV)(ZERO)(a)(b)
 
 
-REM = lambda f: lambda a: lambda b: IF(LT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
+REM = lambda f: lambda a: lambda b: IF(GT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
 REMAINDER = lambda a: lambda b: Z(REM)(a)(b)
 
 
@@ -210,6 +210,12 @@ LAST  = lambda l: Z(LAST_STUB)(l)
 
 REVERSE_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: APPEND(f(TAIL(l)))(HEAD(l)))
 REVERSE = lambda l: Z(REVERSE_STUB)(l)
+
+FOLDR_STUB = lambda f: lambda g: lambda c: lambda l: IF(IS_NIL(l))(lambda _: c)(lambda _: g(HEAD(l))(f(g)(c)(TAIL(l))))
+FOLDR = lambda g: lambda c: lambda l: Z(FOLDR_STUB)(g)(c)(l)
+
+FILTER_STUB = lambda f: lambda p: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: IF(p(HEAD(l)))(lambda _: CONS(HEAD(l))(f(p)(TAIL(l))))(lambda _: f(p)(TAIL(l))))
+FILTER = lambda p: lambda l: Z(FILTER_STUB)(p)(l)
 
 
 l = CONS(ONE)(CONS(TWO)(CONS(THREE)(CONS(FOUR)(NIL))))
