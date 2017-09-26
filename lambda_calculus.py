@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from helpers import *
+
 '''
 Another go  with Lambda calculus
 This time though with changes to Booleans, wrapping them in additional lambda
