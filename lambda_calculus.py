@@ -199,6 +199,7 @@ TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(SND))(lambda _: NIL)
 MAP_STUB = lambda f: lambda g: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: CONS((g)(HEAD(l)))(f(g)(TAIL(l))))
 MAP = lambda g: lambda l: Z(MAP_STUB)(g)(l)
 
+# APPEND appends a single element to an existing list 
 APPEND_STUB = lambda f: lambda l: lambda e: IF(IS_NIL(l))(lambda _: CONS(e)(l))(lambda _: CONS(HEAD(l))(f(TAIL(l))(e)))
 APPEND = lambda l: lambda e: Z(APPEND_STUB)(l)(e)
 
@@ -213,6 +214,9 @@ REVERSE = lambda l: Z(REVERSE_STUB)(l)
 
 FOLDR_STUB = lambda f: lambda g: lambda c: lambda l: IF(IS_NIL(l))(lambda _: c)(lambda _: g(HEAD(l))(f(g)(c)(TAIL(l))))
 FOLDR = lambda g: lambda c: lambda l: Z(FOLDR_STUB)(g)(c)(l)
+
+# EXTEND joins two lists
+EXTEND = lambda a: lambda b: FOLDR(CONS)(b)(a)
 
 FILTER_STUB = lambda f: lambda p: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: IF(p(HEAD(l)))(lambda _: CONS(HEAD(l))(f(p)(TAIL(l))))(lambda _: f(p)(TAIL(l))))
 FILTER = lambda p: lambda l: Z(FILTER_STUB)(p)(l)
@@ -229,3 +233,4 @@ assert LEN(l)(lambda x: x+1)(0) == 4
 assert LEN(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
 assert LAST(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
 assert HEAD(REVERSE(l))(lambda x: x+1)(0) == 4
+assert churchlist_to_list(FILTER(GT(TWO))(l)) == [3, 4]
