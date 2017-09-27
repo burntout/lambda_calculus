@@ -42,7 +42,6 @@ Math on Natural Numbers
 '''
 
 ADD = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
-ADD = lambda m : lambda n: lambda x: lambda y: (m)(SUCC)(n)(x)(y)
 MULT = lambda m: lambda n: lambda f: lambda x: m(n(f))(x)
 
 '''
@@ -143,5 +142,13 @@ EXTEND = lambda a: lambda b: FOLDR(CONS)(b)(a)
 
 FILTER_STUB = lambda f: lambda p: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: IF(p(HEAD(l)))(lambda _: CONS(HEAD(l))(f(p)(TAIL(l))))(lambda _: f(p)(TAIL(l))))
 FILTER = lambda p: lambda l: Z(FILTER_STUB)(p)(l)
+
+# GET an element of a list
+GET_ELEMENT_STUB = lambda f: lambda i: lambda l: IF(IS_ZERO(i))(lambda _: HEAD(l))(lambda _: f(PRED(i))(TAIL(l)))
+GET_ELEMENT = lambda i: lambda l: Z(GET_ELEMENT_STUB)(i)(l) 
+
+# SET an element of a list
+SET_ELEMENT_STUB = lambda f:  lambda i: lambda v: lambda l: IF(IS_ZERO(i))(lambda _: CONS(v)(TAIL(l)))(lambda _: CONS(HEAD(l))(f(PRED(i))(v)(TAIL(l))))
+SET_ELEMENT = lambda i: lambda v: lambda l: Z(LIST_SET_STUB)(i)(v)(l)
 
 
