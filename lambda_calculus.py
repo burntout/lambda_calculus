@@ -149,6 +149,6 @@ GET_ELEMENT = lambda i: lambda l: Z(GET_ELEMENT_STUB)(i)(l)
 
 # SET an element of a list
 SET_ELEMENT_STUB = lambda f:  lambda i: lambda v: lambda l: IF(IS_ZERO(i))(lambda _: CONS(v)(TAIL(l)))(lambda _: CONS(HEAD(l))(f(PRED(i))(v)(TAIL(l))))
-SET_ELEMENT = lambda i: lambda v: lambda l: Z(LIST_SET_STUB)(i)(v)(l)
+SET_ELEMENT = lambda i: lambda v: lambda l: Z(SET_ELEMENT_STUB)(i)(v)(l)
 
 
