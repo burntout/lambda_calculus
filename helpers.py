@@ -27,3 +27,8 @@ def intlist_to_churchlist(l):
         return NIL
     return CONS(int_to_church(l[0]))(intlist_to_churchlist(l[1:]))
 
+def print_grid(g):
+    if church_to_boolean(IS_NIL(g)):
+        return
+    print print_list(HEAD(g))
+    return print_grid(TAIL(g))
