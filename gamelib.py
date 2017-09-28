@@ -57,11 +57,11 @@ WINNING_POSITIONS = lambda g: EXTEND(EXTEND(g)(TRANSPOSE(g)))(CONS(DIAGONAL(g))(
 # Does symbol "s" on grid "g" have a winning position
 # Call after every move
 
-IS_WINNER = lambda s: lambda g: IF(GT(ZERO)(LEN(FILTER(EQ(LEN(g)))(MAP(COUNT_SYMBOL(s))(WINNING_POSITIONS(g))))))(lambda _: TRUE)(lambda _: FALSE)
+IS_WINNER = lambda s: lambda g: GT(ZERO)(LEN(FILTER(EQ(LEN(g)))(MAP(COUNT_SYMBOL(s))(WINNING_POSITIONS(g)))))
 
 # Is the grid full ( i.e. we cannot make any more moves  )
 
-IS_GRID_FULL = lambda g: IF(IS_ZERO(LEN(FILTER(GT(ZERO))(MAP(COUNT_SYMBOL(SPACE))(g)))))(lambda _: TRUE)(lambda _: FALSE)
+IS_GRID_FULL = lambda g: IS_ZERO(LEN(FILTER(GT(ZERO))(MAP(COUNT_SYMBOL(SPACE))(g))))
 
 
 

@@ -23,14 +23,17 @@ def main():
 
 
     # START GAME LOOP
-    while(church_to_boolean(NOT(IS_WINNER(PLAYER)(GRID)))):
+    GAMEOVER  = FALSE
+    WINNER = ZERO
+    # while(church_to_boolean(NOT(IS_WINNER(PLAYER)(GRID)))):
+    while(church_to_boolean(NOT(GAMEOVER))):
 
         # CLEAR AND DISPLAY GRID ( i.e. Take church grid and render it )
         cls()
-        #print_grid(WINNING_POSITIONS(GRID))
-        #print church_to_boolean(NOT(IS_WINNER(PLAYER)(GRID)))
         print_grid(GRID)
-        # GET player 1 INPUT
+
+        # GET player INPUT
+        print "Player ", church_to_int(PLAYER)
         I = int_to_church(int(raw_input("which row: ")))
         J = int_to_church(int(raw_input("which column:" )))
         GRID  = GRID_SET_ELEMENT(I)(J)(PLAYER)(GRID)
@@ -38,14 +41,12 @@ def main():
         cls()
         print_grid(GRID)
 
+        GAMEOVER = OR(IS_WINNER(PLAYER)(GRID))((IS_GRID_FULL)(GRID))
+
+        WINNER = IF(AND(GAMEOVER)(IS_WINNER(PLAYER)(GRID)))(lambda _: ADD(PLAYER)(WINNER))(lambda _: WINNER)
+        
         PLAYER = ADD(REMAINDER(PLAYER)(TWO))(ONE)
 
-        # CONVERT TO CHURCH (i.e. generate new church grid)
-        # Any body won ( if so break and announce winner)
-        # any more moves ( otherwise break and announce draw )
-        # get player 2 input (or generate computer move)
-        # Anybody won ( if so break and announce winner )
-        # any more moves ( otherwise breake and announce draw )
-    # Print Winner
+    print "Player ", church_to_int(WINNER), "won!"
 
 main()
