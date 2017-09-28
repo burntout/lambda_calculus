@@ -44,7 +44,7 @@ COUNT_SYMBOL = lambda s: lambda l: LEN(FILTER(EQ(s))(l))
 ''' 
 Build new list out of the grids diagonal elements 
 '''
-DIAGONAL_STUB = lambda f: lambda g: IF(IS_NIL(g))(g)(lambda _: CONS(HEAD(MAP(HEAD)(g))))(lambda _: f(MAP(TAIL)(TAIL(g))))
+DIAGONAL_STUB = lambda f: lambda g: IF(IS_NIL(g))(lambda _: g)(lambda _: CONS(HEAD(MAP(HEAD)(g)))(f(TAIL(MAP(TAIL)(g)))))
 DIAGONAL = lambda g: Z(DIAGONAL_STUB)(g)
 
 '''
@@ -57,7 +57,7 @@ WINNING_POSITIONS = lambda g: EXTEND(EXTEND(g)(TRANSPOSE(g)))(CONS(DIAGONAL(g))(
 # Does symbol "s" on grid "g" have a winning position
 # Call after every move
 
-IS_WINNER = lambda s: lambda g: IF(GT(ZERO)(LEN(FILTER(EQ(LEN(g)))(MAP((COUNT_SYMBOL)(s))(WINNING_POSITIONS(g))))))(lambda _: TRUE)(lambda _: FALSE)
+IS_WINNER = lambda s: lambda g: IF(GT(ZERO)(LEN(FILTER(EQ(LEN(g)))(MAP(COUNT_SYMBOL(s))(WINNING_POSITIONS(g))))))(lambda _: TRUE)(lambda _: FALSE)
 
 # Is the grid full ( i.e. we cannot make any more moves  )
 
