@@ -30,7 +30,7 @@ def main():
     PLAYER = ONE
     GAMEOVER  = FALSE
     WINNER = ZERO
-    GRID_SIZE = THREE
+    GRID_SIZE = FOUR
     GRID = INIT_LIST(GRID_SIZE)(INIT_LIST(GRID_SIZE)(ZERO))
 
     # Play
@@ -43,6 +43,7 @@ def main():
         WINNER = IF(AND(GAMEOVER)(IS_WINNER(PLAYER)(GRID)))(lambda _: ADD(PLAYER)(WINNER))(lambda _: WINNER)
         PLAYER = ADD(REMAINDER(PLAYER)(TWO))(ONE)
 
+    diplay_game(GRID)
     display_winner(WINNER)
 
 main()
