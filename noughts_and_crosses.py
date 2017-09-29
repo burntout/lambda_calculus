@@ -43,7 +43,7 @@ def main():
         WINNER = IF(AND(GAMEOVER)(IS_WINNER(PLAYER)(GRID)))(lambda _: ADD(PLAYER)(WINNER))(lambda _: WINNER)
         PLAYER = ADD(REMAINDER(PLAYER)(TWO))(ONE)
 
-    diplay_game(GRID)
+    display_game(GRID)
     display_winner(WINNER)
 
 main()
