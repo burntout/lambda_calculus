@@ -15,10 +15,8 @@ CROSS = TWO
 Initialise the grid
 '''
 
-ROW0 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-ROW1 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-ROW2 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-GRID = CONS(ROW0)(CONS(ROW1)(CONS(ROW2)(NIL)))
+INIT_LIST_STUB = lambda f: lambda s: lambda v: IF(IS_ZERO(s))(lambda _: NIL)(lambda _: CONS(v)(f(PRED(s))(v)))
+INIT_LIST = lambda s: lambda v: Z(INIT_LIST_STUB)(s)(v)
 
 
 # GET_ELEMENT = lambda g: lambda x: lambda y: HEAD(y(TAIL)(MAP(HEAD)(x((MAP)(TAIL))(g))))

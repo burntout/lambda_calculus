@@ -28,12 +28,10 @@ def main():
     # Initialize
     cls()
     PLAYER = ONE
-    ROW0 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-    ROW1 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-    ROW2 = CONS(ZERO)(CONS(ZERO)(CONS(ZERO)(NIL)))
-    GRID = CONS(ROW0)(CONS(ROW1)(CONS(ROW2)(NIL)))
     GAMEOVER  = FALSE
     WINNER = ZERO
+    GRID_SIZE = THREE
+    GRID = INIT_LIST(GRID_SIZE)(INIT_LIST(GRID_SIZE)(ZERO))
 
     # Play
     while(church_to_boolean(NOT(GAMEOVER))):
@@ -45,6 +43,6 @@ def main():
         WINNER = IF(AND(GAMEOVER)(IS_WINNER(PLAYER)(GRID)))(lambda _: ADD(PLAYER)(WINNER))(lambda _: WINNER)
         PLAYER = ADD(REMAINDER(PLAYER)(TWO))(ONE)
 
-    display_winner(WINNER):
+    display_winner(WINNER)
 
 main()
