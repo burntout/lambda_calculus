@@ -19,28 +19,6 @@ AND = lambda x: lambda y: x(lambda _: y(lambda _: TRUE)(lambda _: FALSE))(lambda
 
 IF = lambda c: lambda t: lambda e: c(t)(e)
 
-'''
-Boolean Tests
-'''
-
-assert TRUE(lambda _: True)(lambda _: False) == True
-assert FALSE(lambda _: True)(lambda _: False) == False
-assert NOT(TRUE)(lambda _: True)(lambda _: False) == False
-assert NOT(FALSE)(lambda _: True)(lambda _: False) == True
-
-assert OR(TRUE)(TRUE)(lambda _: True)(lambda _: False) == True
-assert OR(TRUE)(FALSE)(lambda _: True)(lambda _: False) == True
-assert OR(FALSE)(TRUE)(lambda _: True)(lambda _: False) == True
-assert OR(FALSE)(FALSE)(lambda _: True)(lambda _: False) == False
-
-assert AND(TRUE)(TRUE)(lambda _: True)(lambda _: False) == True
-assert AND(TRUE)(FALSE)(lambda _: True)(lambda _: False) == False
-assert AND(FALSE)(TRUE)(lambda _: True)(lambda _: False) == False
-assert AND(FALSE)(FALSE)(lambda _: True)(lambda _: False) == False
-
-assert IF(TRUE)(lambda _: "Yes")(lambda _: "No") == "Yes"
-assert IF(FALSE)(lambda _: "Yes")(lambda _: "No") == "No"
-
 ''' 
 Natural Numbers
 '''
@@ -64,7 +42,6 @@ Math on Natural Numbers
 '''
 
 ADD = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
-ADD = lambda m : lambda n: lambda x: lambda y: (m)(SUCC)(n)(x)(y)
 MULT = lambda m: lambda n: lambda f: lambda x: m(n(f))(x)
 
 '''
@@ -82,62 +59,15 @@ PRED = lambda n: n(PSUCC)(ZZ)(FST)
 MINUS = lambda m: lambda n: n(PRED)(m)
 
 '''
-Integer Tests
-'''
-
-assert ZERO(lambda x: x+1)(0) == 0
-assert ONE(lambda x: x+1)(0) == 1
-assert TWO(lambda x: x+1)(0) == 2
-
-assert ADD(ONE)(ONE)(lambda x: x+1)(0) == 2
-assert ADD(ONE)(TWO)(lambda x: x+1)(0) == 3
-assert ADD(TWO)(ONE)(lambda x: x+1)(0) == 3
-assert ADD(TWO)(TWO)(lambda x: x+1)(0) == 4
-
-assert MULT(THREE)(TWO)(lambda x: x+1)(0) == 6
-assert MULT(TWO)(THREE)(lambda x: x+1)(0) == 6
-
-assert PRED(THREE)(lambda x: x+1)(0) == 2
-assert PRED(FOUR)(lambda x: x+1)(0) == 3
-
-assert MINUS(FOUR)(ONE)(lambda x: x+1)(0) == 3 
-assert MINUS(FOUR)(THREE)(lambda x: x+1)(0) == 1
-
-
-'''
 Comparisons
 '''
 
 IS_ZERO = lambda n: n(lambda _: FALSE)(TRUE)
 EQ = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(IS_ZERO(MINUS(n)(m)))
-LT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
-GT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
+GT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
+LT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
 GE = lambda m: lambda n: NOT(LT(m)(n))
 
-'''
-Comparison Tests
-'''
-
-assert IS_ZERO(ZERO)(lambda _: True)(lambda _: False) == True
-assert IS_ZERO(ONE)(lambda _: True)(lambda _: False) == False
-assert IS_ZERO(TWO)(lambda _: True)(lambda _: False) == False
-assert IF(IS_ZERO(ZERO))(lambda _: "Yes")(lambda _: "No") == "Yes"
-assert IF(IS_ZERO(ONE))(lambda _: "Yes")(lambda _: "No") == "No"
-
-assert EQ(ONE)(ONE)(lambda _: True)(lambda _: False) == True
-assert EQ(SUCC(SUCC(SUCC(SUCC(ZERO)))))(ADD(TWO)(TWO))(lambda _: True)(lambda _: False) == True
-
-assert LT(FOUR)(THREE)(lambda _: True)(lambda _: False) == False
-assert LT(THREE)(FOUR)(lambda _: True)(lambda _: False) == True
-assert LT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
-
-assert GT(FOUR)(THREE)(lambda _: True)(lambda _: False) == True
-assert GT(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
-assert GT(THREE)(THREE)(lambda _: True)(lambda _: False) == False
-
-assert GE(THREE)(THREE)(lambda _: True)(lambda _: False) == True
-assert GE(THREE)(TWO)(lambda _: True)(lambda _: False) == True
-assert GE(THREE)(FOUR)(lambda _: True)(lambda _: False) == False
 
 '''
 Recursive Functions
@@ -155,11 +85,11 @@ FIBONACCI = lambda n: Z(fi)(n)
 
 # Divide
 # Variable "c" counts recursion depth as we recursively subtract b from a 
-DIV = lambda f: lambda c: lambda a: lambda b: IF(LT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
+DIV = lambda f: lambda c: lambda a: lambda b: IF(GT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
 DIVIDE = lambda a: lambda b: Z(DIV)(ZERO)(a)(b)
 
 
-REM = lambda f: lambda a: lambda b: IF(LT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
+REM = lambda f: lambda a: lambda b: IF(GT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
 REMAINDER = lambda a: lambda b: Z(REM)(a)(b)
 
 
@@ -171,32 +101,54 @@ RMULT = lambda a: lambda b: Z(m)(a)(b)
 
 
 # Euclids gcd algorithm
-gcd_stub = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
-GCD = lambda a: lambda b: Z(gcd_stub)(a)(b)
-
-
-assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
-assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
-assert DIVIDE(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
-assert REMAINDER(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
-assert REMAINDER(TEN)(FOUR)(lambda x: x+1)(0) == 2
-assert RMULT(TEN)(TWO)(lambda x: x+1)(0) == 20
-assert  GCD(MULT(MULT(NINE)(FOUR))(FIVE))(MULT(NINE)(TWO))(lambda x: x+1)(0) == 18
+GCD_STUB = lambda f: lambda a: lambda b: IF(IS_ZERO(b))(lambda _: a)(lambda _: f(b)(REMAINDER(a)(b)))
+GCD = lambda a: lambda b: Z(GCD_STUB)(a)(b)
 
 '''
 Lists
+Generated as pairs of pairs
 NIL is the empty list
 IS_NIL tests for the empty list
 '''
 
-NIL = lambda _: TRUE
-IS_NIL = lambda l: l(lambda x: lambda y: FALSE)
-CONS = lambda h: lambda t: PAIR(h)(t)
+NIL = PAIR(TRUE)(TRUE)
+IS_NIL = lambda l: l(FST)
+CONS = lambda h: lambda t: PAIR(FALSE)(PAIR(h)(t))
 
-HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(FST))(lambda _: NIL)
-TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND))(lambda _: NIL)
+HEAD = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(FST))(lambda _: NIL)
+TAIL = lambda l: IF(NOT(IS_NIL(l)))(lambda _: l(SND)(SND))(lambda _: NIL)
 
+MAP_STUB = lambda f: lambda g: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: CONS((g)(HEAD(l)))(f(g)(TAIL(l))))
+MAP = lambda g: lambda l: Z(MAP_STUB)(g)(l)
 
+# APPEND appends a single element to an existing list 
+APPEND_STUB = lambda f: lambda l: lambda e: IF(IS_NIL(l))(lambda _: CONS(e)(l))(lambda _: CONS(HEAD(l))(f(TAIL(l))(e)))
+APPEND = lambda l: lambda e: Z(APPEND_STUB)(l)(e)
 
+LEN_STUB = lambda f: lambda c: lambda l: IF(IS_NIL(l))(lambda _: c)(lambda _: f(SUCC(c))(TAIL(l)))
+LEN = lambda l: Z(LEN_STUB)(ZERO)(l)
+
+LAST_STUB = lambda f: lambda l: IF(IS_NIL(TAIL(l)))(lambda _: HEAD(l))(lambda _: f(TAIL(l)))
+LAST  = lambda l: Z(LAST_STUB)(l)
+
+REVERSE_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: APPEND(f(TAIL(l)))(HEAD(l)))
+REVERSE = lambda l: Z(REVERSE_STUB)(l)
+
+FOLDR_STUB = lambda f: lambda g: lambda c: lambda l: IF(IS_NIL(l))(lambda _: c)(lambda _: g(HEAD(l))(f(g)(c)(TAIL(l))))
+FOLDR = lambda g: lambda c: lambda l: Z(FOLDR_STUB)(g)(c)(l)
+
+# EXTEND joins two lists
+EXTEND = lambda a: lambda b: FOLDR(CONS)(b)(a)
+
+FILTER_STUB = lambda f: lambda p: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: IF(p(HEAD(l)))(lambda _: CONS(HEAD(l))(f(p)(TAIL(l))))(lambda _: f(p)(TAIL(l))))
+FILTER = lambda p: lambda l: Z(FILTER_STUB)(p)(l)
+
+# GET an element of a list
+GET_ELEMENT_STUB = lambda f: lambda i: lambda l: IF(IS_ZERO(i))(lambda _: HEAD(l))(lambda _: f(PRED(i))(TAIL(l)))
+GET_ELEMENT = lambda i: lambda l: Z(GET_ELEMENT_STUB)(i)(l) 
+
+# SET an element of a list
+SET_ELEMENT_STUB = lambda f:  lambda i: lambda v: lambda l: IF(IS_ZERO(i))(lambda _: CONS(v)(TAIL(l)))(lambda _: CONS(HEAD(l))(f(PRED(i))(v)(TAIL(l))))
+SET_ELEMENT = lambda i: lambda v: lambda l: Z(SET_ELEMENT_STUB)(i)(v)(l)
 
 
