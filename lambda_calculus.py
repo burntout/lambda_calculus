@@ -67,13 +67,13 @@ EQ = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(IS_ZERO(MINUS(n)(m)))
 GT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
 LT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
 GE = lambda m: lambda n: NOT(LT(m)(n))
+LE = lambda m : lambda n: OR(EQ(m)(n))(LT(m)(n))
 
 
 '''
 Recursive Functions
 Requires the Z combinator
 '''
-
 Z = lambda f: (lambda x: f(lambda y: (x)(x)(y)))(lambda x: f(lambda y: (x)(x)(y)))
 g = lambda f: lambda n: IF(IS_ZERO(n))(lambda _: ONE)(lambda _: (MULT(n)(f(PRED(n)))))
 
@@ -151,4 +151,7 @@ GET_ELEMENT = lambda i: lambda l: Z(GET_ELEMENT_STUB)(i)(l)
 SET_ELEMENT_STUB = lambda f:  lambda i: lambda v: lambda l: IF(IS_ZERO(i))(lambda _: CONS(v)(TAIL(l)))(lambda _: CONS(HEAD(l))(f(PRED(i))(v)(TAIL(l))))
 SET_ELEMENT = lambda i: lambda v: lambda l: Z(SET_ELEMENT_STUB)(i)(v)(l)
 
+# Quick Sort
 
+SORT_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: EXTEND(APPEND(f(FILTER(LE(HEAD(l)))(TAIL(l))))(HEAD(l)))(f(FILTER(GT(HEAD(l)))(TAIL(l)))))
+SORT = lambda l: Z(SORT_STUB)(l)

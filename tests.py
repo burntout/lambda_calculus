@@ -84,3 +84,7 @@ assert LEN(l)(lambda x: x+1)(0) == 4
 assert LEN(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
 assert LAST(APPEND(l)(FIVE))(lambda x: x+1)(0) == 5
 assert HEAD(REVERSE(l))(lambda x: x+1)(0) == 4
+
+
+LONG_LIST = CONS(TEN)(CONS(TWO)(CONS(FIVE)(CONS(THREE)(CONS(ONE)(CONS(SIX)(CONS(SEVEN)(CONS(FOUR)(CONS(TWO)(CONS(THREE)(CONS(FOUR)(CONS(EIGHT)(CONS(NINE)(NIL)))))))))))))
+assert churchlist_to_list(SORT(LONG_LIST)) == [1, 2, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9, 10]
