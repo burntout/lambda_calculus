@@ -37,8 +37,8 @@ assert MULT(THREE)(TWO)(lambda x: x+1)(0) == 6
 assert MULT(TWO)(THREE)(lambda x: x+1)(0) == 6
 assert PRED(THREE)(lambda x: x+1)(0) == 2
 assert PRED(FOUR)(lambda x: x+1)(0) == 3
-assert MINUS(FOUR)(ONE)(lambda x: x+1)(0) == 3 
-assert MINUS(FOUR)(THREE)(lambda x: x+1)(0) == 1
+assert MINUS(ONE)(FOUR)(lambda x: x+1)(0) == 3 
+assert MINUS(THREE)(FOUR)(lambda x: x+1)(0) == 1
 
 ''' 
 Tests for Integer comparisons
@@ -67,9 +67,11 @@ Tests for recursive functions
 
 assert FACTORIAL(SUCC(FOUR))(lambda x: x+1)(0) == 120
 assert FIBONACCI(FOUR)(lambda x: x+1)(0) == 5
-assert DIVIDE(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
-assert REMAINDER(MULT(FOUR)(TWO))(THREE)(lambda x: x+1)(0) == 2
-assert REMAINDER(TEN)(FOUR)(lambda x: x+1)(0) == 2
+assert DIVIDE(THREE)(MULT(FOUR)(TWO))(lambda x: x+1)(0) == 2
+assert DIVIDE(FIVE)(NINE)(lambda x: x+1)(0) == 1
+assert REMAINDER(THREE)(MULT(FOUR)(TWO))(lambda x: x+1)(0) == 2
+assert REMAINDER(FOUR)(TEN)(lambda x: x+1)(0) == 2
+assert REMAINDER(FIVE)(TEN)(lambda x: x+1)(0) == 0
 
 '''
 Tests for Lists

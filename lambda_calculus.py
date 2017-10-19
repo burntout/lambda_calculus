@@ -56,7 +56,7 @@ ZZ = PAIR(ZERO)(ZERO)
 PSUCC = lambda p: PAIR(p(SND))(SUCC(p(SND)))
 PRED = lambda n: n(PSUCC)(ZZ)(FST)
 
-MINUS = lambda m: lambda n: n(PRED)(m)
+MINUS = lambda m: lambda n: m(PRED)(n)
 
 '''
 Comparisons
@@ -64,8 +64,8 @@ Comparisons
 
 IS_ZERO = lambda n: n(lambda _: FALSE)(TRUE)
 EQ = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(IS_ZERO(MINUS(n)(m)))
-GT = lambda m: lambda n: AND(IS_ZERO(MINUS(m)(n)))(NOT(IS_ZERO(MINUS(n)(m)))) 
-LT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(m)(n))))(IS_ZERO(MINUS(n)(m))) 
+GT = lambda m: lambda n: AND(IS_ZERO(MINUS(n)(m)))(NOT(IS_ZERO(MINUS(m)(n)))) 
+LT = lambda m: lambda n: AND(NOT(IS_ZERO(MINUS(n)(m))))(IS_ZERO(MINUS(m)(n))) 
 GE = lambda m: lambda n: NOT(LT(m)(n))
 LE = lambda m : lambda n: OR(EQ(m)(n))(LT(m)(n))
 
@@ -85,11 +85,11 @@ FIBONACCI = lambda n: Z(fi)(n)
 
 # Divide
 # Variable "c" counts recursion depth as we recursively subtract b from a 
-DIV = lambda f: lambda c: lambda a: lambda b: IF(GT)(a)(b)(lambda _: c)(lambda _: f(SUCC(c))(MINUS(a)(b))(b))
+DIV = lambda f: lambda c: lambda a: lambda b: IF(GT)(b)(a)(lambda _: c)(lambda _: f(SUCC(c))(a)(MINUS(a)(b)))
 DIVIDE = lambda a: lambda b: Z(DIV)(ZERO)(a)(b)
 
 
-REM = lambda f: lambda a: lambda b: IF(GT)(a)(b)(lambda _: a)(lambda _: f(MINUS(a)(b))(b))
+REM = lambda f: lambda a: lambda b: IF(GT)(b)(a)(lambda _: b)(lambda _: f(a)(MINUS(a)(b)))
 REMAINDER = lambda a: lambda b: Z(REM)(a)(b)
 
 
