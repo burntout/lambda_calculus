@@ -41,7 +41,7 @@ def main():
         GRID  = GRID_SET_ELEMENT(MOVE(FST))(MOVE(SND))(PLAYER)(GRID)
         GAMEOVER = OR(IS_WINNER(PLAYER)(GRID))((IS_GRID_FULL)(GRID))
         WINNER = IF(AND(GAMEOVER)(IS_WINNER(PLAYER)(GRID)))(lambda _: ADD(PLAYER)(WINNER))(lambda _: WINNER)
-        PLAYER = ADD(REMAINDER(PLAYER)(TWO))(ONE)
+        PLAYER = ADD(REMAINDER(TWO)(PLAYER))(ONE)
 
     display_game(GRID)
     display_winner(WINNER)
