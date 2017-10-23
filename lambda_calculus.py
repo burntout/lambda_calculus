@@ -155,3 +155,12 @@ SET_ELEMENT = lambda i: lambda v: lambda l: Z(SET_ELEMENT_STUB)(i)(v)(l)
 
 SORT_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: EXTEND(APPEND(f(FILTER(LE(HEAD(l)))(TAIL(l))))(HEAD(l)))(f(FILTER(GT(HEAD(l)))(TAIL(l)))))
 SORT = lambda l: Z(SORT_STUB)(l)
+
+RANGE_STUB = lambda f: lambda s: lambda e: IF(EQ(s)(e))(lambda _: NIL)(lambda _: CONS(s)(f(SUCC(s))(e)))
+RANGE = lambda s: lambda e: Z(RANGE_STUB)(s)(e)
+
+SIEVE_STUB = lambda f: lambda l: IF(IS_NIL(l))(lambda _: l)(lambda _: CONS(HEAD(l))(f(FILTER(lambda X: NOT(IS_ZERO(REMAINDER(HEAD(l))(X))))(l))))
+SIEVE = lambda l: Z(SIEVE_STUB)(l)
+
+
+
